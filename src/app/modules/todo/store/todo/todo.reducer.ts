@@ -48,6 +48,10 @@ export const todoReducer = (state = initialState, action: TodoActions) => {
         ...state,
         toDoList: state.toDoList.filter(todo => todo.id !== action.payload.id)
       }
+    case todoActionsType.load:
+      return {
+        ...action.payload.state
+      }
     default:
       return state;
   }
