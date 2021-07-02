@@ -3,7 +3,7 @@ import {select, Store} from "@ngrx/store";
 import {todoFeatureSelector} from "../store/todo/todo.selectors";
 import {filter} from "rxjs/operators";
 import {ToDoState} from "../store/todo/todo.reducer";
-import {ToDoLoadAction} from "../store/todo/todo.actions";
+import {toDoLoadAction} from "../store/todo/todo.actions";
 
 export const LOCAL_STORAGE_KEY = 'todo'
 
@@ -37,7 +37,7 @@ export class TodoSyncStorageService {
   private loadFromStorage() {
     const storageState = localStorage.getItem(LOCAL_STORAGE_KEY)
     if (storageState) {
-      this.store$.dispatch(new ToDoLoadAction({state: JSON.parse(storageState)}))
+      this.store$.dispatch(toDoLoadAction({state: JSON.parse(storageState)}))
     }
   }
 }

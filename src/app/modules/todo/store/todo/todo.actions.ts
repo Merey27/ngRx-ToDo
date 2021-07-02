@@ -1,4 +1,4 @@
-import {Action} from "@ngrx/store";
+import {createAction, props} from "@ngrx/store";
 import {ToDoState} from "./todo.reducer";
 
 export enum todoActionsType {
@@ -9,49 +9,8 @@ export enum todoActionsType {
   load = '[TODO] load todo item'
 }
 
-export class ToDoCreateAction implements Action {
-  readonly type = todoActionsType.create;
-
-  constructor(
-    public payload: { name: string }
-  ) {
-  }
-}
-
-export class ToDoDeleteAction implements Action {
-  readonly type = todoActionsType.delete;
-
-  constructor(
-    public payload: { id: number }
-  ) {
-  }
-}
-
-export class ToDoToggleAction implements Action {
-  readonly type = todoActionsType.toggle;
-
-  constructor(
-    public payload: { id: number }
-  ) {
-  }
-}
-
-export class ToDoEditAction implements Action {
-  readonly type = todoActionsType.edit;
-
-  constructor(
-    public payload: { id: number, name: string }
-  ) {
-  }
-}
-
-export class ToDoLoadAction implements Action {
-  readonly type = todoActionsType.load;
-
-  constructor(
-    public payload: { state: ToDoState }
-  ) {
-  }
-}
-
-export type TodoActions = ToDoCreateAction | ToDoDeleteAction | ToDoToggleAction | ToDoEditAction | ToDoLoadAction
+export const toDoCreateAction = createAction(todoActionsType.create, props<{ name: string }>())
+export const toDoDeleteAction = createAction(todoActionsType.delete, props<{ id: number }>())
+export const toDoToggleAction = createAction(todoActionsType.toggle, props<{ id: number }>())
+export const toDoEditAction = createAction(todoActionsType.edit, props<{ id: number, name: string }>())
+export const toDoLoadAction = createAction(todoActionsType.load, props<{ state: ToDoState }>())

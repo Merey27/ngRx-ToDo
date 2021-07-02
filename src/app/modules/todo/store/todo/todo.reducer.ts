@@ -1,5 +1,6 @@
 import {ToDo} from "../../model/todo";
-import {TodoActions, todoActionsType} from "./todo.actions";
+import {Action, createReducer, on} from "@ngrx/store";
+import * as ToDoActions from "./todo.actions"
 
 export const TODO_REDUCER_NODE = 'todo';
 
@@ -13,46 +14,43 @@ const initialState: ToDoState = {
   toDoList: []
 }
 
-export const todoReducer = (state = initialState, action: TodoActions) => {
-  switch (action.type) {
-    case todoActionsType.create:
-      return {
-        ...state,
-        idIncrement: state.idIncrement + 1,
-        toDoList: [
-          ...state.toDoList,
-          {
-            id: state.idIncrement,
-            name: action.payload.name,
-            completed: false
-          }
-        ]
-      };
-    case todoActionsType.toggle:
-      return {
-        ...state,
-        toDoList: state.toDoList.map(todo => todo.id === action.payload.id ? {
-          ...todo,
-          completed: !todo.completed
-        } : todo)
-      };
-    case todoActionsType.edit:
-      return {
-        ...state,
-        toDoList: state.toDoList.map(todo => todo.id === action.payload.id ? {
-          name: action.payload.name
-        } : todo)
-      };
-    case todoActionsType.delete:
-      return {
-        ...state,
-        toDoList: state.toDoList.filter(todo => todo.id !== action.payload.id)
+export const todoReducer = createReducer(
+  initialState,
+  on(ToDoActions.toDoCreateAction, (state, action) => ({
+    ...state,
+    idIncrement: state.idIncrement + 1,
+    toDoList: [
+      ...state.toDoList,
+      {
+        id: state.idIncrement,
+        name: action.name,
+        completed: false
       }
-    case todoActionsType.load:
-      return {
-        ...action.payload.state
-      }
-    default:
-      return state;
-  }
+    ]
+  })),
+  on(ToDoActions.toDoToggleAction, (state, action) => ({
+    ...state,
+    toDoList: state.toDoList.map(todo => todo.id === action.id ? {
+      ...todo,
+      completed: !todo.completed
+    } : todo)
+  })),
+  on(ToDoActions.toDoEditAction, (state, action) => ({
+    ...state,
+    toDoList: state.toDoList.map(todo => todo.id === action.id ? {
+      ...todo,
+      name: action.name
+    } : todo)
+  })),
+  on(ToDoActions.toDoDeleteAction, (state, action) => ({
+    ...state,
+    toDoList: state.toDoList.filter(todo => todo.id !== action.id)
+  })),
+  on(ToDoActions.toDoLoadAction, (state, action) => ({
+    ...action.state
+  })),
+)
+
+export function reducer(state: ToDoState | undefined, action: Action) {
+  return todoReducer(state, action);
 }

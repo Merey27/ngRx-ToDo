@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {StoreModule} from "@ngrx/store";
-import {TODO_REDUCER_NODE, todoReducer} from "./store/todo/todo.reducer";
+import {reducer, TODO_REDUCER_NODE} from "./store/todo/todo.reducer";
 import {TodoPageComponent} from './page/todo-page/todo-page.component';
 import {RouterModule} from "@angular/router";
 import {toDoRoute} from "./routes";
@@ -25,7 +25,7 @@ import {TodoEditFormUiComponent} from './ui/todo-edit-form-ui/todo-edit-form-ui.
   imports: [
     CommonModule,
     RouterModule.forChild(toDoRoute),
-    StoreModule.forFeature(TODO_REDUCER_NODE, todoReducer),
+    StoreModule.forFeature(TODO_REDUCER_NODE, reducer),
     FormsModule
   ],
   exports: [

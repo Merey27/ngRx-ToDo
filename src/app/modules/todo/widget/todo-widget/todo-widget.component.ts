@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {select, Store} from "@ngrx/store";
-import {ToDoCreateAction, ToDoDeleteAction, ToDoEditAction, ToDoToggleAction} from "../../store/todo/todo.actions";
+import {toDoCreateAction, toDoDeleteAction, toDoEditAction, toDoToggleAction} from "../../store/todo/todo.actions";
 import {ToDoState} from "../../store/todo/todo.reducer";
 import {ToDo} from "../../model/todo";
 import {todoListSelector} from "../../store/todo/todo.selectors";
@@ -25,18 +25,18 @@ export class TodoWidgetComponent implements OnInit {
   }
 
   onCreate(name: string) {
-    this.store$.dispatch(new ToDoCreateAction({name}))
+    this.store$.dispatch(toDoCreateAction({name}))
   }
 
   onDelete(id: number) {
-    this.store$.dispatch(new ToDoDeleteAction({id}))
+    this.store$.dispatch(toDoDeleteAction({id}))
   }
 
   onToggle(id: number) {
-    this.store$.dispatch(new ToDoToggleAction({id}))
+    this.store$.dispatch(toDoToggleAction({id}))
   }
 
   onEdit({id, name}: any) {
-    this.store$.dispatch(new ToDoEditAction({id, name}))
+    this.store$.dispatch(toDoEditAction({id, name}))
   }
 }
